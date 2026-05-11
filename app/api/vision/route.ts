@@ -7,6 +7,7 @@ const PROMPT =
   'Otherwise, describe the most useful or interesting observation about what is shown. ' +
   'One or two short sentences. No preamble. No "I see" or "this image shows". Just the answer.';
 
+  
 export async function POST(req: NextRequest) {
   let body: { key?: string; image?: string };
   try {
