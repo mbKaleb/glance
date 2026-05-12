@@ -14,14 +14,17 @@ export default function Page() {
   const [status, setStatus] = useState<Status>('watching');
   const [toast, setToast] = useState('');
   const [toastShown, setToastShown] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const runningRef = useRef(false);
+  const pausedRef = useRef(false);
   const keyRef = useRef('');
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sendNowRef = useRef(false);
 
   async function begin() {
     const key = apiKey.trim();
@@ -78,9 +81,8 @@ export default function Page() {
     await video.play();
 
     const canvas = document.createElement('canvas');
-    const targetWidth = 768;
-    canvas.width = targetWidth;
-    canvas.height = Math.round((targetWidth * video.videoHeight) / video.videoWidth);
+    canvas.width = 768;
+    canvas.height = 768;
     canvasRef.current = canvas;
     ctxRef.current = canvas.getContext('2d');
   }
@@ -88,7 +90,11 @@ export default function Page() {
   function captureFrame(): string {
     const ctx = ctxRef.current!;
     const canvas = canvasRef.current!;
-    ctx.drawImage(videoRef.current!, 0, 0, canvas.width, canvas.height);
+    const video = videoRef.current!;
+    const size = Math.min(video.videoWidth, video.videoHeight);
+    const sx = (video.videoWidth - size) / 2;
+    const sy = (video.videoHeight - size) / 2;
+    ctx.drawImage(video, sx, sy, size, size, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL('image/jpeg', 0.78).split(',')[1];
   }
 
@@ -121,6 +127,11 @@ export default function Page() {
 
   async function loop() {
     while (runningRef.current) {
+      if (pausedRef.current && !sendNowRef.current) {
+        await sleep(200);
+        continue;
+      }
+      sendNowRef.current = false;
       try {
         setStatus('thinking');
         const b64 = captureFrame();
@@ -138,6 +149,16 @@ export default function Page() {
       }
       await sleep(15000);
     }
+  }
+
+  function togglePause() {
+    const next = !pausedRef.current;
+    pausedRef.current = next;
+    setPaused(next);
+  }
+
+  function sendNow() {
+    sendNowRef.current = true;
   }
 
   function stop() {
@@ -214,11 +235,13 @@ export default function Page() {
       <div className="hud-top">
         <div className="pill" data-state={status}>
           <span className="dot" />
-          <span>{status === 'thinking' ? 'Looking' : status === 'error' ? 'Error' : 'Watching'}</span>
+          <span>{status === 'thinking' ? 'Looking' : status === 'error' ? 'Error' : paused ? 'Paused' : 'Watching'}</span>
         </div>
-        <button className="stop-btn" onClick={stop}>
-          Stop
-        </button>
+        <div className="hud-actions">
+          <button className="stop-btn" onClick={sendNow}>Send</button>
+          <button className="stop-btn" onClick={togglePause}>{paused ? 'Resume' : 'Pause'}</button>
+          <button className="stop-btn" onClick={stop}>Stop</button>
+        </div>
       </div>
 
       <div className="caption">
