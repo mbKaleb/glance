@@ -245,18 +245,18 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  padding: 80px 22px calc(env(safe-area-inset-bottom) + 28px);
+  top: 0;
+  padding: calc(env(safe-area-inset-top) + 80px) 28px 40px;
   background: linear-gradient(180deg,
-    transparent 0%,
-    rgba(0,0,0,0.4) 30%,
-    rgba(0,0,0,0.85) 70%,
-    rgba(0,0,0,0.95) 100%);
-  min-height: 38vh;
+    rgba(0,0,0,0.98) 0%,
+    rgba(0,0,0,0.92) 40%,
+    rgba(0,0,0,0.7) 75%,
+    transparent 100%);
+  min-height: 82vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: flex-start;
+  gap: 14px;
   z-index: 2;
 }
 
@@ -271,12 +271,12 @@ body {
 .answer {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: clamp(36px, 9vw, 58px);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   font-variation-settings: "SOFT" 100;
   color: var(--fg);
-  min-height: 60px;
+  min-height: 80px;
 }
 
 .answer.thinking { color: var(--dim); font-style: italic; }
