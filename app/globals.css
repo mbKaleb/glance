@@ -225,6 +225,12 @@ body {
   50% { opacity: 0.4; transform: scale(0.85); }
 }
 
+.hud-actions {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
 .stop-btn {
   pointer-events: auto;
   padding: 8px 14px;
