@@ -147,7 +147,11 @@ export default function Page() {
         showToast(msg.slice(0, 140));
         await sleep(2500);
       }
-      await sleep(15000);
+      // Wait up to 15s but bail early if sendNow is pressed
+      for (let i = 0; i < 75; i++) {
+        if (sendNowRef.current || !runningRef.current) break;
+        await sleep(200);
+      }
     }
   }
 
@@ -234,7 +238,7 @@ export default function Page() {
 
       <div className="hud-top">
         <div className="pill" data-state={status}>
-          <span className="dot" />
+          {status === 'thinking' ? <span className="spinner" /> : <span className="dot" />}
           <span>{status === 'thinking' ? 'Looking' : status === 'error' ? 'Error' : paused ? 'Paused' : 'Watching'}</span>
         </div>
         <div className="hud-actions">

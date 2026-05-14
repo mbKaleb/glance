@@ -171,8 +171,12 @@ body {
 }
 
 .video {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vmin;
+  height: 100vmin;
   object-fit: cover;
   background: #000;
 }
@@ -188,7 +192,7 @@ body {
   justify-content: space-between;
   align-items: center;
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
 }
 
 .pill {
@@ -215,6 +219,20 @@ body {
   background: var(--accent);
   box-shadow: 0 0 8px var(--accent);
   animation: pulse 1.4s ease-in-out infinite;
+}
+
+.pill .spinner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-top-color: var(--warn);
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .pill[data-state="thinking"] .dot { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
