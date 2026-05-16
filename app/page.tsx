@@ -51,26 +51,14 @@ export default function Page() {
   }
 
   async function startCamera() {
-    // First pass: get permission and enumerate devices to find ultra-wide
-    const initial = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' } },
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
       audio: false,
     });
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoCameras = devices.filter(d => d.kind === 'videoinput');
-    console.log('[Glance] cameras found:', videoCameras.map(d => `${d.label} (${d.deviceId.slice(0, 8)}…)`));
-    const ultraWide = videoCameras.find(d => /ultra.?wide/i.test(d.label));
-    console.log('[Glance] ultra-wide:', ultraWide ? ultraWide.label : 'not found — using default rear camera');
-    // If ultra-wide found, stop initial stream and re-open with that deviceId
-    if (ultraWide) {
-      initial.getTracks().forEach(t => t.stop());
-    }
-    const stream = ultraWide
-      ? await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: { exact: ultraWide.deviceId }, width: { ideal: 1280 }, height: { ideal: 720 } },
-          audio: false,
-        })
-      : initial;
 
     streamRef.current = stream;
     const video = videoRef.current!;

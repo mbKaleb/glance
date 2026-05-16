@@ -270,7 +270,7 @@ body {
   left: 0;
   right: 0;
   top: 0;
-  padding: calc(env(safe-area-inset-top) + 80px) 28px 40px;
+  padding: calc(env(safe-area-inset-top) + 80px) 48px 40px;
   background: linear-gradient(180deg,
     rgba(0,0,0,0.98) 0%,
     rgba(0,0,0,0.92) 40%,
