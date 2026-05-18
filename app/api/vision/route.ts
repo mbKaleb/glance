@@ -9,7 +9,8 @@ const PROMPT_ANALYZE =
 const PROMPT_FORMAT =
   'Now output ONLY the answer in exactly the form the question or context demands. ' +
   'If it is a number, output just the number. If a word, just the word. If a sentence, just the sentence. ' +
-  'No labels, no explanation, no punctuation beyond what the answer itself requires.';
+  'No labels, no explanation, no punctuation beyond what the answer itself requires.' + 
+  'Each answer its own line.';
 
 function extractText(data: { content: Array<{ type: string; text?: string }> }): string {
   return data.content
