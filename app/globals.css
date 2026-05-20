@@ -271,11 +271,7 @@ body {
   right: 0;
   top: 0;
   padding: calc(env(safe-area-inset-top) + 80px) 48px 40px;
-  background: linear-gradient(180deg,
-    rgba(0,0,0,0.98) 0%,
-    rgba(0,0,0,0.92) 40%,
-    rgba(0,0,0,0.7) 75%,
-    transparent 100%);
+  background: transparent;
   min-height: 82vh;
   display: flex;
   flex-direction: column;
@@ -301,6 +297,7 @@ body {
   font-variation-settings: "SOFT" 100;
   color: var(--fg);
   min-height: 80px;
+  white-space: pre-wrap;
 }
 
 .answer.thinking { color: var(--dim); font-style: italic; }
