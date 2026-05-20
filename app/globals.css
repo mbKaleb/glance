@@ -298,6 +298,7 @@ body {
   color: var(--fg);
   min-height: 80px;
   white-space: pre-wrap;
+  text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.9), -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .answer.thinking { color: var(--dim); font-style: italic; }
