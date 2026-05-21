@@ -1,4 +1,4 @@
-# Glance
+# g lance
 
 Live camera narration via Claude. Point your phone, get continuous answers in a caption strip — no taps after setup.
 
